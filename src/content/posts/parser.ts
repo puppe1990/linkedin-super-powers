@@ -45,7 +45,9 @@ function hasPostAuthor(root: HTMLElement): boolean {
   return findFirstText(root, AUTHOR_SELECTORS).length > 0;
 }
 
-function findInferredPostContainer(button: HTMLButtonElement): HTMLElement | null {
+function findInferredPostContainer(
+  button: HTMLButtonElement
+): HTMLElement | null {
   let current = button.parentElement;
 
   while (current && current.tagName !== 'MAIN') {
@@ -60,7 +62,9 @@ function findInferredPostContainer(button: HTMLButtonElement): HTMLElement | nul
 }
 
 function collectPostCandidates(root: ParentNode): HTMLElement[] {
-  const candidates = Array.from(root.querySelectorAll<HTMLElement>(POST_SELECTOR));
+  const candidates = Array.from(
+    root.querySelectorAll<HTMLElement>(POST_SELECTOR)
+  );
   const inferred = Array.from(
     root.querySelectorAll<HTMLButtonElement>(POST_MENU_BUTTON_SELECTOR),
     (button) => findInferredPostContainer(button)
@@ -76,7 +80,10 @@ function findPostHref(article: HTMLElement): string {
   return normalizeText(anchor?.getAttribute('href'));
 }
 
-function findPostHeadline(article: HTMLElement, contentPreview: string): string {
+function findPostHeadline(
+  article: HTMLElement,
+  contentPreview: string
+): string {
   const label = normalizeText(article.getAttribute('aria-label'));
   if (label) {
     return label;

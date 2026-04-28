@@ -89,8 +89,10 @@ describe('extractFeedPostsFromDocument', () => {
       {
         id: 'feed-post-1',
         author: 'Perfil Exemplo',
-        headline: 'Este e um texto de exemplo para validar a extracao do feed atual.',
-        contentPreview: 'Este e um texto de exemplo para validar a extracao do feed atual.',
+        headline:
+          'Este e um texto de exemplo para validar a extracao do feed atual.',
+        contentPreview:
+          'Este e um texto de exemplo para validar a extracao do feed atual.',
         href: '',
         capturedAt: '2026-04-28T12:00:00.000Z'
       }

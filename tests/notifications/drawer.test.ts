@@ -27,7 +27,9 @@ describe('renderDrawer', () => {
     ]);
 
     expect(document.querySelectorAll('.lnsp-item')).toHaveLength(1);
-    expect(document.body.textContent).toContain('Pessoa Demo reagiu a sua publicacao');
+    expect(document.body.textContent).toContain(
+      'Pessoa Demo reagiu a sua publicacao'
+    );
   });
 });
 

@@ -17,11 +17,10 @@ describe('loadNotificationsFromFrame', () => {
   it('loads notification items from an iframe document', async () => {
     const contentDocument = document.implementation.createHTMLDocument('');
     const frame = buildFrameWithContent(contentDocument);
-    const promise = loadNotificationsFromFrame(
-      document,
-      () => frame,
-      { intervalMs: 5, timeoutMs: 50 }
-    );
+    const promise = loadNotificationsFromFrame(document, () => frame, {
+      intervalMs: 5,
+      timeoutMs: 50
+    });
 
     window.setTimeout(() => {
       contentDocument.body.innerHTML = `

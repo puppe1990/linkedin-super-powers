@@ -25,19 +25,29 @@ describe('bindPostsHeaderDropdown', () => {
     bindPostsHeaderDropdown(onExtract, document);
     bindPostsHeaderDropdown(onExtract, document);
 
-    const headerAnchor = document.querySelector('nav[aria-label="Primary Navigation"]');
-    const headerList = document.querySelector('nav[aria-label="Primary Navigation"] ul');
+    const headerAnchor = document.querySelector(
+      'nav[aria-label="Primary Navigation"]'
+    );
+    const headerList = document.querySelector(
+      'nav[aria-label="Primary Navigation"] ul'
+    );
 
-    expect(headerAnchor?.querySelectorAll('#lnsp-superpowers-trigger')).toHaveLength(1);
+    expect(
+      headerAnchor?.querySelectorAll('#lnsp-superpowers-trigger')
+    ).toHaveLength(1);
     expect(headerAnchor?.children).toHaveLength(1);
-    expect(headerList?.querySelectorAll('#lnsp-superpowers-root')).toHaveLength(1);
+    expect(headerList?.querySelectorAll('#lnsp-superpowers-root')).toHaveLength(
+      1
+    );
     expect(headerAnchor?.textContent).toContain('Superpowers');
   });
 
   it('toggles the dropdown and renders the extract action', () => {
     bindPostsHeaderDropdown(onExtract, document);
 
-    const trigger = document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger');
+    const trigger = document.querySelector<HTMLButtonElement>(
+      '#lnsp-superpowers-trigger'
+    );
     trigger?.click();
 
     expect(document.querySelector('#lnsp-superpowers-menu')).not.toBeNull();
@@ -51,7 +61,9 @@ describe('bindPostsHeaderDropdown', () => {
   it('closes the dropdown on outside click', () => {
     bindPostsHeaderDropdown(onExtract, document);
 
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')?.click();
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')
+      ?.click();
     document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
     expect(document.querySelector('#lnsp-superpowers-menu')).toBeNull();
@@ -62,8 +74,12 @@ describe('bindPostsHeaderDropdown', () => {
     onExtract.mockReturnValue(2);
     bindPostsHeaderDropdown(onExtract, document);
 
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')?.click();
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-menu button')?.click();
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')
+      ?.click();
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-menu button')
+      ?.click();
     vi.runAllTimers();
     await Promise.resolve();
 
@@ -82,8 +98,12 @@ describe('bindPostsHeaderDropdown', () => {
 
     bindPostsHeaderDropdown(onExtract, document);
 
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')?.click();
-    const actionButton = document.querySelector<HTMLButtonElement>('#lnsp-superpowers-menu button');
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')
+      ?.click();
+    const actionButton = document.querySelector<HTMLButtonElement>(
+      '#lnsp-superpowers-menu button'
+    );
     actionButton?.click();
 
     expect(actionButton?.textContent).toBe('Extraindo posts...');
@@ -105,8 +125,12 @@ describe('bindPostsHeaderDropdown', () => {
     onExtract.mockResolvedValue(0);
     bindPostsHeaderDropdown(onExtract, document);
 
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')?.click();
-    const actionButton = document.querySelector<HTMLButtonElement>('#lnsp-superpowers-menu button');
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')
+      ?.click();
+    const actionButton = document.querySelector<HTMLButtonElement>(
+      '#lnsp-superpowers-menu button'
+    );
     actionButton?.click();
     vi.runAllTimers();
     await Promise.resolve();
@@ -120,8 +144,12 @@ describe('bindPostsHeaderDropdown', () => {
     onExtract.mockResolvedValue(2);
     bindPostsHeaderDropdown(onExtract, document);
 
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')?.click();
-    const actionButton = document.querySelector<HTMLButtonElement>('#lnsp-superpowers-menu button');
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')
+      ?.click();
+    const actionButton = document.querySelector<HTMLButtonElement>(
+      '#lnsp-superpowers-menu button'
+    );
     actionButton?.click();
     vi.runOnlyPendingTimers();
     await Promise.resolve();
@@ -146,11 +174,17 @@ describe('bindPostsHeaderDropdown', () => {
 
     bindPostsHeaderDropdown(onExtract, document);
 
-    const trigger = document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger');
-    const headerAnchor = document.querySelector('header nav[aria-label="Primary Navigation"]');
+    const trigger = document.querySelector<HTMLButtonElement>(
+      '#lnsp-superpowers-trigger'
+    );
+    const headerAnchor = document.querySelector(
+      'header nav[aria-label="Primary Navigation"]'
+    );
     trigger?.click();
 
-    expect(headerAnchor?.querySelectorAll('#lnsp-superpowers-menu')).toHaveLength(1);
+    expect(
+      headerAnchor?.querySelectorAll('#lnsp-superpowers-menu')
+    ).toHaveLength(1);
   });
 
   it('ignores unrelated controls outside the header anchor', () => {
@@ -165,10 +199,14 @@ describe('bindPostsHeaderDropdown', () => {
 
     bindPostsHeaderDropdown(onExtract, document);
 
-    const headerAnchor = document.querySelector('nav[aria-label="Primary Navigation"]');
+    const headerAnchor = document.querySelector(
+      'nav[aria-label="Primary Navigation"]'
+    );
     const outsideTrigger = document.querySelector('#outside-trigger');
 
-    expect(headerAnchor?.querySelectorAll('#lnsp-superpowers-trigger')).toHaveLength(1);
+    expect(
+      headerAnchor?.querySelectorAll('#lnsp-superpowers-trigger')
+    ).toHaveLength(1);
     expect(outsideTrigger).not.toBeNull();
   });
 
@@ -184,11 +222,19 @@ describe('bindPostsHeaderDropdown', () => {
 
     bindPostsHeaderDropdown(onExtract, document);
 
-    const headerAnchor = document.querySelector('header nav[aria-label="Primary Navigation"]');
-    const outsideAnchor = document.querySelector('main nav[aria-label="Primary Navigation"]');
+    const headerAnchor = document.querySelector(
+      'header nav[aria-label="Primary Navigation"]'
+    );
+    const outsideAnchor = document.querySelector(
+      'main nav[aria-label="Primary Navigation"]'
+    );
 
-    expect(headerAnchor?.querySelectorAll('#lnsp-superpowers-trigger')).toHaveLength(1);
-    expect(outsideAnchor?.querySelector('#lnsp-superpowers-trigger')).toBeNull();
+    expect(
+      headerAnchor?.querySelectorAll('#lnsp-superpowers-trigger')
+    ).toHaveLength(1);
+    expect(
+      outsideAnchor?.querySelector('#lnsp-superpowers-trigger')
+    ).toBeNull();
   });
 
   it('prefers a labeled nav over an unlabeled nav inside the same header', () => {
@@ -201,11 +247,19 @@ describe('bindPostsHeaderDropdown', () => {
 
     bindPostsHeaderDropdown(onExtract, document);
 
-    const labeledAnchor = document.querySelector('header nav[aria-label="Primary Navigation"]');
-    const unlabeledAnchor = document.querySelector('header nav:not([aria-label])');
+    const labeledAnchor = document.querySelector(
+      'header nav[aria-label="Primary Navigation"]'
+    );
+    const unlabeledAnchor = document.querySelector(
+      'header nav:not([aria-label])'
+    );
 
-    expect(labeledAnchor?.querySelectorAll('#lnsp-superpowers-trigger')).toHaveLength(1);
-    expect(unlabeledAnchor?.querySelector('#lnsp-superpowers-trigger')).toBeNull();
+    expect(
+      labeledAnchor?.querySelectorAll('#lnsp-superpowers-trigger')
+    ).toHaveLength(1);
+    expect(
+      unlabeledAnchor?.querySelector('#lnsp-superpowers-trigger')
+    ).toBeNull();
   });
 
   it('falls back to a plain nav inside the header', () => {
@@ -219,17 +273,27 @@ describe('bindPostsHeaderDropdown', () => {
 
     const fallbackAnchor = document.querySelector('header nav');
 
-    expect(fallbackAnchor?.querySelectorAll('#lnsp-superpowers-trigger')).toHaveLength(1);
+    expect(
+      fallbackAnchor?.querySelectorAll('#lnsp-superpowers-trigger')
+    ).toHaveLength(1);
   });
 
   it('mounts the trigger in the nav list instead of as a loose nav child', () => {
     bindPostsHeaderDropdown(onExtract, document);
 
-    const headerAnchor = document.querySelector('nav[aria-label="Primary Navigation"]');
-    const headerList = document.querySelector('nav[aria-label="Primary Navigation"] ul');
+    const headerAnchor = document.querySelector(
+      'nav[aria-label="Primary Navigation"]'
+    );
+    const headerList = document.querySelector(
+      'nav[aria-label="Primary Navigation"] ul'
+    );
 
-    expect(headerAnchor?.querySelector(':scope > #lnsp-superpowers-trigger')).toBeNull();
-    expect(headerList?.querySelector(':scope > #lnsp-superpowers-root')).not.toBeNull();
+    expect(
+      headerAnchor?.querySelector(':scope > #lnsp-superpowers-trigger')
+    ).toBeNull();
+    expect(
+      headerList?.querySelector(':scope > #lnsp-superpowers-root')
+    ).not.toBeNull();
   });
 
   it('prefers the global-nav header area when multiple headers exist', () => {
@@ -253,8 +317,12 @@ describe('bindPostsHeaderDropdown', () => {
       'header nav[aria-label="Secondary Navigation"]'
     );
 
-    expect(globalNavAnchor?.querySelectorAll('#lnsp-superpowers-trigger')).toHaveLength(1);
-    expect(genericHeaderAnchor?.querySelector('#lnsp-superpowers-trigger')).toBeNull();
+    expect(
+      globalNavAnchor?.querySelectorAll('#lnsp-superpowers-trigger')
+    ).toHaveLength(1);
+    expect(
+      genericHeaderAnchor?.querySelector('#lnsp-superpowers-trigger')
+    ).toBeNull();
   });
 
   it('does nothing when the header anchor is missing', () => {
@@ -269,6 +337,8 @@ describe('bindPostsHeaderDropdown', () => {
     bindPostsHeaderDropdown(onExtract, document);
     bindPostsHeaderDropdown(onExtract, document);
 
-    expect(document.querySelectorAll('#lnsp-superpowers-style')).toHaveLength(1);
+    expect(document.querySelectorAll('#lnsp-superpowers-style')).toHaveLength(
+      1
+    );
   });
 });

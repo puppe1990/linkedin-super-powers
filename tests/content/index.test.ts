@@ -46,8 +46,12 @@ describe('content bootstrap', () => {
     vi.useFakeTimers();
     await import('../../src/content/index');
 
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')?.click();
-    document.querySelector<HTMLButtonElement>('#lnsp-superpowers-menu button')?.click();
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-trigger')
+      ?.click();
+    document
+      .querySelector<HTMLButtonElement>('#lnsp-superpowers-menu button')
+      ?.click();
     vi.runAllTimers();
     await Promise.resolve();
 

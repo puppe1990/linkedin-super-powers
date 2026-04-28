@@ -58,18 +58,24 @@ function hasNotificationWords(title: string): boolean {
   );
 }
 
-function findNotificationAnchor(time: HTMLTimeElement): HTMLAnchorElement | null {
+function findNotificationAnchor(
+  time: HTMLTimeElement
+): HTMLAnchorElement | null {
   const directAnchor = time.closest('a[href]');
   if (directAnchor instanceof HTMLAnchorElement) {
     return directAnchor;
   }
 
-  const container = time.closest('[role="listitem"], li, article, section, div');
+  const container = time.closest(
+    '[role="listitem"], li, article, section, div'
+  );
   if (!container) {
     return null;
   }
 
-  const anchors = Array.from(container.querySelectorAll<HTMLAnchorElement>('a[href]'));
+  const anchors = Array.from(
+    container.querySelectorAll<HTMLAnchorElement>('a[href]')
+  );
   return (
     anchors.find((anchor) => {
       const title = getAnchorTitle(anchor);
@@ -78,7 +84,9 @@ function findNotificationAnchor(time: HTMLTimeElement): HTMLAnchorElement | null
   );
 }
 
-function buildNotificationItem(anchor: HTMLAnchorElement): NotificationItem | null {
+function buildNotificationItem(
+  anchor: HTMLAnchorElement
+): NotificationItem | null {
   const href = anchor.getAttribute('href') ?? '';
   const title = getAnchorTitle(anchor);
 
@@ -94,11 +102,15 @@ function buildNotificationItem(anchor: HTMLAnchorElement): NotificationItem | nu
   };
 }
 
-export function extractNotificationsFromDocument(root: ParentNode): NotificationItem[] {
+export function extractNotificationsFromDocument(
+  root: ParentNode
+): NotificationItem[] {
   const seen = new Set<string>();
   const items: NotificationItem[] = [];
 
-  for (const time of Array.from(root.querySelectorAll<HTMLTimeElement>('time'))) {
+  for (const time of Array.from(
+    root.querySelectorAll<HTMLTimeElement>('time')
+  )) {
     const anchor = findNotificationAnchor(time);
     const item = anchor ? buildNotificationItem(anchor) : null;
 
@@ -114,7 +126,9 @@ export function extractNotificationsFromDocument(root: ParentNode): Notification
     return items;
   }
 
-  for (const anchor of Array.from(root.querySelectorAll<HTMLAnchorElement>('a[href]'))) {
+  for (const anchor of Array.from(
+    root.querySelectorAll<HTMLAnchorElement>('a[href]')
+  )) {
     const item = buildNotificationItem(anchor);
     if (!item || !hasNotificationWords(item.title) || seen.has(item.id)) {
       continue;

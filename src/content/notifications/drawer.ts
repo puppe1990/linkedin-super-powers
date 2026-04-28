@@ -322,9 +322,9 @@ function buildEmptyState(message: string): HTMLDivElement {
 function buildPostMeta(post: ExtractedPost): HTMLSpanElement {
   const meta = document.createElement('span');
   meta.className = 'lnsp-item-subtitle';
-  meta.textContent = `${post.author} · ${new Date(post.capturedAt).toLocaleString(
-    'pt-BR'
-  )}`;
+  meta.textContent = `${post.author} · ${new Date(
+    post.capturedAt
+  ).toLocaleString('pt-BR')}`;
   return meta;
 }
 

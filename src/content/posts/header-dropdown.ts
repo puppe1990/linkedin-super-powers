@@ -8,6 +8,7 @@ const outsideClickHandlers = new WeakMap<HTMLElement, EventListener>();
 const clearStatusTimers = new WeakMap<HTMLElement, number>();
 
 type ExtractPostsAction = () => number | Promise<number>;
+type MenuAction = () => void;
 
 function waitForUiPaint(): Promise<void> {
   return new Promise((resolve) => {
@@ -140,7 +141,11 @@ function scheduleClearStatus(owner: HTMLElement): void {
   clearStatusTimers.set(owner, timer);
 }
 
-function setActionState(trigger: HTMLButtonElement, message: string, disabled: boolean): void {
+function setActionState(
+  trigger: HTMLButtonElement,
+  message: string,
+  disabled: boolean
+): void {
   const owner = findOwner(trigger);
   if (!owner) {
     return;
@@ -171,7 +176,8 @@ function setResultState(trigger: HTMLButtonElement, count: number): void {
     return;
   }
 
-  const message = count === 0 ? 'Nenhum post encontrado' : `${count} posts extraídos`;
+  const message =
+    count === 0 ? 'Nenhum post encontrado' : `${count} posts extraídos`;
   setActionState(trigger, message, false);
   scheduleClearStatus(owner);
 }
@@ -205,15 +211,17 @@ async function runExtraction(
   }
 }
 
-function buildActionButton(onExtract: ExtractPostsAction): HTMLButtonElement {
+function buildActionButton(onExtract: MenuAction): HTMLButtonElement {
   const button = document.createElement('button');
   button.type = 'button';
   button.textContent = ACTION_BUTTON_LABEL;
-  button.addEventListener('click', () => onExtract());
+  button.addEventListener('click', () => {
+    onExtract();
+  });
   return button;
 }
 
-function buildMenu(onExtract: ExtractPostsAction): HTMLDivElement {
+function buildMenu(onExtract: MenuAction): HTMLDivElement {
   const menu = document.createElement('div');
   menu.id = MENU_ID;
   menu.appendChild(buildActionButton(onExtract));
@@ -249,7 +257,7 @@ function bindOutsideClick(owner: HTMLElement): void {
   outsideClickHandlers.set(owner, handler);
 }
 
-function toggleMenu(trigger: HTMLButtonElement, onExtract: ExtractPostsAction): void {
+function toggleMenu(trigger: HTMLButtonElement, onExtract: MenuAction): void {
   const owner = findOwner(trigger);
   if (!owner) {
     return;
@@ -265,7 +273,7 @@ function toggleMenu(trigger: HTMLButtonElement, onExtract: ExtractPostsAction): 
   bindOutsideClick(owner);
 }
 
-function buildTrigger(onExtract: ExtractPostsAction): HTMLButtonElement {
+function buildTrigger(onExtract: MenuAction): HTMLButtonElement {
   const button = document.createElement('button');
   button.id = TRIGGER_ID;
   button.type = 'button';
@@ -289,6 +297,8 @@ export function bindPostsHeaderDropdown(
     return;
   }
 
-  const trigger = buildTrigger(() => runExtraction(trigger, onExtract));
+  const trigger = buildTrigger(() => {
+    void runExtraction(trigger, onExtract);
+  });
   findTriggerMount(anchor).appendChild(trigger);
 }

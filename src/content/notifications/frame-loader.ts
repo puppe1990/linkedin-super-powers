@@ -31,7 +31,9 @@ function getHostBody(hostDocument: Document): HTMLElement {
     return hostDocument.body;
   }
 
-  throw new Error('Expected host document.body to exist for notifications iframe.');
+  throw new Error(
+    'Expected host document.body to exist for notifications iframe.'
+  );
 }
 
 function readFrameDocument(frame: HTMLIFrameElement): Document {
@@ -50,7 +52,9 @@ function waitForFrameLoad(frame: HTMLIFrameElement): Promise<void> {
     frame.addEventListener(
       'error',
       () =>
-        reject(new Error(`Failed to load LinkedIn notifications frame: ${frame.src}`)),
+        reject(
+          new Error(`Failed to load LinkedIn notifications frame: ${frame.src}`)
+        ),
       { once: true }
     );
   });

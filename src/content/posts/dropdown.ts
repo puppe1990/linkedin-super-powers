@@ -110,9 +110,9 @@ function buildItem(post: ExtractedPost): HTMLElement {
 
   const meta = document.createElement('span');
   meta.className = 'lnsp-posts-item-meta';
-  meta.textContent = `${post.author} · ${new Date(post.capturedAt).toLocaleString(
-    'pt-BR'
-  )}`;
+  meta.textContent = `${post.author} · ${new Date(
+    post.capturedAt
+  ).toLocaleString('pt-BR')}`;
 
   const preview = document.createElement('span');
   preview.className = 'lnsp-posts-item-preview';
@@ -126,6 +126,7 @@ export function renderPostsMenuPanel(
   posts: ExtractedPost[],
   container: HTMLElement
 ): void {
+  ensureStyle();
   const existing = container.querySelector(`#${MENU_PANEL_ID}`);
   existing?.remove();
 
