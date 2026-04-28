@@ -72,6 +72,7 @@ describe('extractFeedPostsFromDocument', () => {
           <button
             type="button"
             aria-label="Abrir menu de controle da publicação de Perfil Exemplo"
+            aria-expanded="false"
           ></button>
           <a href="https://www.linkedin.com/in/perfil-exemplo/">
             <p>Perfil Exemplo</p>
@@ -93,6 +94,44 @@ describe('extractFeedPostsFromDocument', () => {
           'Este e um texto de exemplo para validar a extracao do feed atual.',
         contentPreview:
           'Este e um texto de exemplo para validar a extracao do feed atual.',
+        href: '',
+        capturedAt: '2026-04-28T12:00:00.000Z'
+      }
+    ]);
+  });
+
+  it('extracts inferred feed posts regardless of linkedin ui locale', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-04-28T12:00:00.000Z'));
+
+    document.body.innerHTML = `
+      <main>
+        <div componentkey="feed-post-2">
+          <button
+            type="button"
+            aria-label="Open control menu for Example Profile's post"
+            aria-expanded="false"
+          ></button>
+          <a href="https://www.linkedin.com/in/example-profile/">
+            <p>Example Profile</p>
+          </a>
+          <p data-testid="expandable-text-box">
+            This example validates feed extraction when the LinkedIn UI is not in Portuguese.
+          </p>
+        </div>
+      </main>
+    `;
+
+    const posts = extractFeedPostsFromDocument(document);
+
+    expect(posts).toEqual([
+      {
+        id: 'feed-post-2',
+        author: 'Example Profile',
+        headline:
+          'This example validates feed extraction when the LinkedIn UI is not in Portuguese.',
+        contentPreview:
+          'This example validates feed extraction when the LinkedIn UI is not in Portuguese.',
         href: '',
         capturedAt: '2026-04-28T12:00:00.000Z'
       }

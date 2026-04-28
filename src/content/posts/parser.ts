@@ -1,8 +1,7 @@
 import type { ExtractedPost } from '../../shared/types';
 
 const POST_SELECTOR = 'main article';
-const POST_MENU_BUTTON_SELECTOR =
-  'button[aria-label^="Abrir menu de controle da publicação"]';
+const POST_MENU_BUTTON_SELECTOR = 'button[aria-label][aria-expanded]';
 const AUTHOR_SELECTORS = [
   '.update-components-actor__title span[aria-hidden="true"]',
   '.update-components-actor__name span[aria-hidden="true"]',
