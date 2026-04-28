@@ -1,3 +1,5 @@
+import { bindPostsHeaderDropdown } from './posts/header-dropdown';
+import { extractAndShowFeedPosts } from './posts/controller';
 import { openNotificationsDrawer } from './notifications/controller';
 import { findNotificationAnchor } from './notifications/selectors';
 
@@ -23,8 +25,12 @@ function bindNotificationLink(root: ParentNode = document): void {
 }
 
 bindNotificationLink();
+bindPostsHeaderDropdown(() => extractAndShowFeedPosts());
 
-const observer = new MutationObserver(() => bindNotificationLink());
+const observer = new MutationObserver(() => {
+  bindNotificationLink();
+  bindPostsHeaderDropdown(() => extractAndShowFeedPosts());
+});
 observer.observe(document.body, {
   childList: true,
   subtree: true

@@ -1,4 +1,4 @@
-import type { NotificationItem } from '../../shared/types';
+import type { ExtractedPost, NotificationItem } from '../../shared/types';
 import { DRAWER_ROOT_ID, STYLE_ID } from './constants';
 
 let previousOverflow = '';
@@ -149,6 +149,17 @@ function ensureStyle(): void {
       margin-top: 6px;
     }
 
+    #${DRAWER_ROOT_ID} .lnsp-post-preview {
+      margin: 10px 0 0;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #344054;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+    }
+
     #${DRAWER_ROOT_ID} .lnsp-unread-dot {
       width: 8px;
       height: 8px;
@@ -262,7 +273,7 @@ function ensureStyle(): void {
   document.head.appendChild(style);
 }
 
-function createRoot(): HTMLDivElement {
+function createRoot(titleText: string): HTMLDivElement {
   removeDrawer();
   ensureStyle();
   previousOverflow = document.body.style.overflow;
@@ -282,7 +293,7 @@ function createRoot(): HTMLDivElement {
 
   const title = document.createElement('h2');
   title.className = 'lnsp-title';
-  title.textContent = 'Notificacoes';
+  title.textContent = titleText;
 
   const closeButton = document.createElement('button');
   closeButton.className = 'lnsp-close';
@@ -301,6 +312,29 @@ function createRoot(): HTMLDivElement {
   return root;
 }
 
+function buildEmptyState(message: string): HTMLDivElement {
+  const empty = document.createElement('div');
+  empty.className = 'lnsp-empty';
+  empty.textContent = message;
+  return empty;
+}
+
+function buildPostMeta(post: ExtractedPost): HTMLSpanElement {
+  const meta = document.createElement('span');
+  meta.className = 'lnsp-item-subtitle';
+  meta.textContent = `${post.author} · ${new Date(post.capturedAt).toLocaleString(
+    'pt-BR'
+  )}`;
+  return meta;
+}
+
+function buildPostPreview(post: ExtractedPost): HTMLParagraphElement {
+  const preview = document.createElement('p');
+  preview.className = 'lnsp-post-preview';
+  preview.textContent = post.contentPreview;
+  return preview;
+}
+
 function getList(root: ParentNode): HTMLDivElement {
   const list = root.querySelector<HTMLDivElement>('.lnsp-list');
   if (list) {
@@ -311,7 +345,7 @@ function getList(root: ParentNode): HTMLDivElement {
 }
 
 export function renderLoadingDrawer(): void {
-  const root = createRoot();
+  const root = createRoot('Notificacoes');
   const list = getList(root);
   const loading = document.createElement('div');
   loading.className = 'lnsp-loading';
@@ -356,14 +390,11 @@ export function renderLoadingDrawer(): void {
 }
 
 export function renderDrawer(items: NotificationItem[]): void {
-  const root = createRoot();
+  const root = createRoot('Notificacoes');
   const list = getList(root);
 
   if (items.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'lnsp-empty';
-    empty.textContent = 'Nenhuma notificacao encontrada.';
-    list.appendChild(empty);
+    list.appendChild(buildEmptyState('Nenhuma notificacao encontrada.'));
   }
 
   for (const item of items) {
@@ -398,5 +429,41 @@ export function renderDrawer(items: NotificationItem[]): void {
     }
 
     list.appendChild(link);
+  }
+}
+
+export function renderPostsDrawer(posts: ExtractedPost[]): void {
+  const root = createRoot('Posts extraidos');
+  const list = getList(root);
+
+  if (posts.length === 0) {
+    list.appendChild(buildEmptyState('Nenhum post visivel foi encontrado.'));
+    return;
+  }
+
+  for (const post of posts) {
+    const item = document.createElement(post.href ? 'a' : 'div');
+    item.className = 'lnsp-item';
+
+    if (item instanceof HTMLAnchorElement) {
+      item.href = post.href;
+      item.target = '_blank';
+      item.rel = 'noopener noreferrer';
+    }
+
+    const avatar = document.createElement('div');
+    avatar.className = 'lnsp-avatar';
+    avatar.textContent = buildAvatarText(post.author);
+
+    const content = document.createElement('div');
+    content.className = 'lnsp-content';
+
+    const title = document.createElement('strong');
+    title.className = 'lnsp-item-title';
+    title.textContent = post.headline;
+
+    content.append(title, buildPostMeta(post), buildPostPreview(post));
+    item.append(avatar, content);
+    list.appendChild(item);
   }
 }

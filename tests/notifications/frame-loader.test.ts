@@ -25,7 +25,7 @@ describe('loadNotificationsFromFrame', () => {
 
     window.setTimeout(() => {
       contentDocument.body.innerHTML = `
-        <a href="/feed/update/urn:li:activity:3/" aria-label="Ana enviou uma mensagem">
+        <a href="/feed/update/urn:li:activity:3/" aria-label="Pessoa Demo enviou uma mensagem">
           <time datetime="2026-04-28T07:00:00.000Z">4 h</time>
         </a>
       `;
@@ -35,7 +35,7 @@ describe('loadNotificationsFromFrame', () => {
     await expect(promise).resolves.toEqual([
       {
         id: '/feed/update/urn:li:activity:3/',
-        title: 'Ana enviou uma mensagem',
+        title: 'Pessoa Demo enviou uma mensagem',
         subtitle: '4 h',
         href: 'https://www.linkedin.com/feed/update/urn:li:activity:3/'
       }
